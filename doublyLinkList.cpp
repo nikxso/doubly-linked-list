@@ -78,6 +78,33 @@ void insert_end()
 
 	} while ((choice == 'Y') || (choice == 'y'));
 }
+
+int checklocation(char loc)
+{
+	struct Node *ptr = head;
+	while (ptr->data != loc)
+	{
+		ptr = ptr->next;
+		if (ptr->next == NULL)
+		{
+			if (loc != ptr->data)
+			{
+
+				cout << "\n--------------------------------------\n";
+				cout << "seems like there is no '" << loc << "' present in linklist" << endl;
+
+				cout << "\n--------------------------------------\n";
+				return 1;
+				break;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
+	cout<<checklocation(loc);
+}
 void insert_after_perticular()
 {
 	char loc, userdata;
@@ -85,21 +112,24 @@ void insert_after_perticular()
 	cout << endl
 		 << "Enter the Location: ";
 	cin >> loc;
-	cout << endl
-		 << "Enter data: ";
-	cin >> userdata;
-
-	struct Node *_end = (struct Node *)malloc(sizeof(struct Node));
-	struct Node *second = head;
-	while (second->data != loc)
+	if (checklocation(loc) != 1)
 	{
-		second = second->next;
+		cout << endl
+			 << "Enter data: ";
+		cin >> userdata;
+
+		struct Node *_end = (struct Node *)malloc(sizeof(struct Node));
+		struct Node *second = head;
+		while (second->data != loc)
+		{
+			second = second->next;
+		}
+		_end->data = userdata;
+		_end->next = second->next;
+		_end->left = second;
+		second->next = _end;
+		second->next->left = _end;
 	}
-	_end->data = userdata;
-	_end->next = second->next;
-	_end->left = second;
-	second->next = _end;
-	second->next->left = _end;
 }
 void displayFromBeigining()
 {
@@ -168,7 +198,7 @@ void delete_last()
 	if (head == NULL)
 	{
 		cout << "\n--------------------------------------\n";
-		cout << "\nLinklist is emplay, can't delete first element\n";
+		cout << "\nLinklist is emplay, can't delete last element\n";
 		cout << "\n--------------------------------------\n";
 	}
 	else if (head->next == NULL)
@@ -194,6 +224,7 @@ void delete_last()
 		cout << "\n--------------------------------------\n";
 	}
 }
+
 void delete_perticular()
 {
 	char loc;
@@ -201,16 +232,36 @@ void delete_perticular()
 	cout << endl
 		 << "Enter the Location: ";
 	cin >> loc;
-	struct Node *ptr = head;
-
-	while (ptr->data != loc)
+	if (checklocation(loc) != 1)
 	{
-		ptr = ptr->next;
+		struct Node *ptr = head;
+
+		if (loc == head->data)
+		{
+			ptr = head->next;
+			ptr->left = NULL;
+			free(head);
+			head = ptr;
+			cout << "\n--------------------------------------\n";
+			cout << "ELement Successfully delete ";
+			cout << "\n--------------------------------------\n";
+		}
+		else
+		{
+
+			while (ptr->data != loc)
+			{
+				ptr = ptr->next;
+			}
+			struct Node *extra = ptr;
+			extra->left->next = ptr->next;
+			ptr = NULL;
+			free(ptr);
+			cout << "\n--------------------------------------\n";
+			cout << "ELement Successfully delete ";
+			cout << "\n--------------------------------------\n";
+		}
 	}
-	struct Node *extra = ptr;
-	extra->left->next = ptr->next;
-	ptr = NULL;
-	free(ptr);
 }
 int main()
 
@@ -271,7 +322,6 @@ dashboard:
 		break;
 	default:
 		cout << "You've entered other then following key\n";
-
 		break;
 	}
 
