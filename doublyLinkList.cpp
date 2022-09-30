@@ -85,37 +85,36 @@ int checklocation(char loc)
 	while (ptr->data != loc)
 	{
 		ptr = ptr->next;
-		if (ptr->next == NULL)
+		if (ptr->next == NULL && loc != ptr->data)
 		{
-			if (loc != ptr->data)
-			{
-
 				cout << "\n--------------------------------------\n";
 				cout << "seems like there is no '" << loc << "' present in linklist" << endl;
 
 				cout << "\n--------------------------------------\n";
 				return 1;
 				break;
-			}
-			else
-			{
-				return 0;
-			}
+		}
+		else{
+			return 0;
 		}
 	}
-	cout<<checklocation(loc);
+	return 0;
 }
 void insert_after_perticular()
 {
-	char loc, userdata;
 
-	cout << endl
-		 << "Enter the Location: ";
+	char loc, userdata;
+	cout << endl << "Enter the Location: ";
 	cin >> loc;
-	if (checklocation(loc) != 1)
+	if (head == NULL)
 	{
-		cout << endl
-			 << "Enter data: ";
+		cout << "\n--------------------------------------\n";
+		cout << "\nLinklist is emplay, can't insert element\n";
+		cout << "\n--------------------------------------\n";
+	
+	}else if (checklocation(loc) != 1)
+	{
+		cout << endl << "Enter data: ";
 		cin >> userdata;
 
 		struct Node *_end = (struct Node *)malloc(sizeof(struct Node));
@@ -129,6 +128,9 @@ void insert_after_perticular()
 		_end->left = second;
 		second->next = _end;
 		second->next->left = _end;
+		cout << "\n--------------------------------------\n";
+		cout << "Inserted Successfully";
+		cout << "\n--------------------------------------\n";
 	}
 }
 void displayFromBeigining()
@@ -229,10 +231,14 @@ void delete_perticular()
 {
 	char loc;
 
-	cout << endl
-		 << "Enter the Location: ";
+	cout << endl<< "Enter the Location: ";
 	cin >> loc;
-	if (checklocation(loc) != 1)
+	if (head == NULL)
+	{
+		cout << "\n--------------------------------------\n";
+		cout << "\nLinklist is emplay, can't delete element\n";
+		cout << "\n--------------------------------------\n";
+	}else if (checklocation(loc) != 1)
 	{
 		struct Node *ptr = head;
 
@@ -271,7 +277,7 @@ dashboard:
 	cout << endl
 		 << "(dashboard) press key to perform operation: ";
 	cout << endl
-		 << "   *Insertion of Node:- \n\t1.Insert at last";
+		 << "   *Insertion of Node:- \n\t1.Create Node/Insert at last";
 	cout << endl
 		 << "\t2.Insert at beigining";
 	cout << endl
