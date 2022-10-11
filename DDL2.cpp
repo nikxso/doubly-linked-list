@@ -18,7 +18,8 @@ void display(int type);
 void DisLines();
 int checklocation(char loc);
 int count_Node();
-
+void Delete(int type);
+void successmsg();
 // main function
 int main()
 {
@@ -59,6 +60,18 @@ dashboard:
 		break;
 	case 5:
 		display(1);
+		goto dashboard;
+		break;
+	case 6:
+		Delete(0);
+		goto dashboard;
+		break;
+	case 7:
+		Delete(1);
+		goto dashboard;
+		break;
+	case 8:
+		Delete(2);
 		goto dashboard;
 		break;
 	case 9:
@@ -202,11 +215,24 @@ void insert(int type)
 					findloc = findloc->next;
 				}
 				ptr->data = userdata;
-				findloc->next->prev = ptr;
-				ptr->next = findloc->next;
-				findloc->next = ptr;
-				ptr->prev = findloc;
-						}
+
+				if (findloc->next == NULL)
+				{
+					link->next = ptr;
+					ptr->prev = link;
+					ptr->next = NULL;
+					link = link->next;
+					;
+				}
+				else
+				{
+					findloc->next->prev = ptr;
+					ptr->next = findloc->next;
+					findloc->next = ptr;
+					ptr->prev = findloc;
+				}
+			}
+			system("cls");
 		}
 	}
 }
@@ -307,4 +333,109 @@ int checklocation(char loc)
 		}
 	}
 	return islocate;
+	delete (ptr);
+}
+
+void Delete(int type)
+{
+	/*	type 0 - delete first
+		type 1 - delete last
+		type 2 - delete particular node
+	*/
+	struct Node *del;
+	if (head == NULL)
+	{
+		system("cls");
+		cout << "\n------------------\n";
+		cout << "Linklist is empty";
+		cout << "\n------------------\n";
+	}
+	else
+	{
+
+		if (type == 0)
+		{
+			if (head->next == NULL)
+			{
+				head = NULL;
+				link = NULL;
+				delete (head);
+				delete (link);
+			}
+			else
+			{
+				del = head;
+				head = head->next;
+				head->prev = NULL;
+				delete (del);
+			}
+		}
+		else if (type == 1)
+		{
+
+			del = link;
+			if (del->prev == NULL)
+			{
+				head = NULL;
+				link = NULL;
+				delete (head);
+				delete (link);
+			}
+			else
+			{
+				link = link->prev;
+				del->prev->next = NULL;
+				delete (del);
+			}
+		}
+		else if (type == 2)
+		{
+			char loc;
+			cout << "[Search data]: Enter The location data:  ";
+			cin >> loc;
+			if (checklocation(loc) == 0)
+			{
+				del = head;
+				while (del->data != loc)
+				{
+					del = del->next;
+				}
+				if (del->next == NULL && del->prev == NULL)
+				{
+					head = NULL;
+					link = NULL;
+					cout << "condition ture";
+					delete (head);
+					delete (link);
+				}
+				else if (del->prev == NULL)
+				{
+					del->next->prev = NULL;
+					head = del->next;
+					delete (del);
+				}
+				else if (del->next == NULL)
+				{
+					del->prev->next = NULL;
+					link = del->prev;
+					delete (del);
+				}
+
+				else
+				{
+					del->prev->next = del->next;
+					del->next->prev = del->prev;
+					delete (del);
+				}
+			}
+		}
+		successmsg();
+	}
+}
+void successmsg()
+{
+	system("cls");
+	cout << "\n----------------------------\n";
+	cout << "Operation Successfully Done";
+	cout << "\n----------------------------\n";
 }
