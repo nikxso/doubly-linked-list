@@ -10,6 +10,7 @@ struct Node
 
 struct Node *head = NULL;
 
+//insert or create a new node at beigining
 void insert_beigining()
 {
 	char userdata, choice;
@@ -42,6 +43,7 @@ void insert_beigining()
 	} while ((choice == 'Y') || (choice == 'y'));
 }
 
+//insert or create a new node at the end
 void insert_end()
 {
 	char userdata, choice;
@@ -78,6 +80,31 @@ void insert_end()
 
 	} while ((choice == 'Y') || (choice == 'y'));
 }
+
+//This function checks location of the node given by user  
+int checklocation(char loc)
+{
+	struct Node *ptr = head;
+	while (ptr->data != loc)
+	{
+		ptr = ptr->next;
+		if (ptr->next == NULL && loc != ptr->data)
+		{
+				cout << "\n--------------------------------------\n";
+				cout << "seems like there is no '" << loc << "' present in linklist" << endl;
+
+				cout << "\n--------------------------------------\n";
+				return 1;
+				break;
+		}
+		else{
+			return 0;
+		}
+	}
+	return 0;
+}
+//Insert data after perticular node  
+
 void insert_after_perticular()
 {
 	char loc, userdata;
@@ -101,6 +128,7 @@ void insert_after_perticular()
 	second->next = _end;
 	second->next->left = _end;
 }
+//Display all linklist node in forward 
 void displayFromBeigining()
 {
 	cout << "---------------" << endl;
@@ -114,6 +142,7 @@ void displayFromBeigining()
 		 << "---------------" << endl;
 }
 
+//Display all linklist node in reverse 
 void displayFromEnd()
 {
 	cout << "---------------" << endl;
@@ -135,6 +164,7 @@ void displayFromEnd()
 	cout << endl
 		 << "---------------" << endl;
 }
+//Delete starting element of the linklist
 void delete_first()
 {
 	struct Node *ptr;
@@ -163,6 +193,7 @@ void delete_first()
 		cout << "\n--------------------------------------\n";
 	}
 }
+//Delete last element of linklist
 void delete_last()
 {
 	if (head == NULL)
@@ -194,6 +225,9 @@ void delete_last()
 		cout << "\n--------------------------------------\n";
 	}
 }
+
+//Delete data after perticular node  
+
 void delete_perticular()
 {
 	char loc;
@@ -212,10 +246,11 @@ void delete_perticular()
 	ptr = NULL;
 	free(ptr);
 }
+//main function
 int main()
 
 {
-dashboard:
+dashboard:	//lable for goto statement 
 	int choice;
 	cout << endl
 		 << "(dashboard) press key to perform operation: ";
@@ -275,6 +310,5 @@ dashboard:
 		break;
 	}
 
-	// displayFromBeigining();
 	return 0;
 }
